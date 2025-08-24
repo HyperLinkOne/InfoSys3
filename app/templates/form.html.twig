@@ -1,0 +1,5 @@
+<form method="POST" action="/submit">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('default') }}">
+    <input type="text" name="name" placeholder="Name">
+    <button type="submit">Absenden</button>
+</form>

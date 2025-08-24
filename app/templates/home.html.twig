@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1>Welcome to {{ app.name }}</h1>
+    
+    {% if isLoggedIn %}
+        <div style="background: #e6ffe6; padding: 20px; border-radius: 5px; margin-bottom: 2rem;">
+            <h2>You are logged in!</h2>
+            <p>Welcome back! You can now access all features of the application.</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 5px;">
+                <h3>Blog</h3>
+                <p>Read and manage blog posts.</p>
+                <a href="/blog" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                    View Blog
+                </a>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 5px;">
+                <h3>My Profile</h3>
+                <p>Manage your account settings and change password.</p>
+                <a href="/profile" style="display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 3px;">
+                    My Profile
+                </a>
+            </div>
+            
+            {% if isAdmin %}
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 5px;">
+                    <h3>User Management</h3>
+                    <p>Manage users and their roles (Admin only).</p>
+                    <a href="/users" style="display: inline-block; padding: 10px 20px; background: #dc3545; color: white; text-decoration: none; border-radius: 3px;">
+                        Manage Users
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        
+    {% else %}
+        <div style="background: #fff3cd; padding: 20px; border-radius: 5px; margin-bottom: 2rem;">
+            <h2>Please log in</h2>
+            <p>You need to log in to access the full features of this application.</p>
+            <a href="/login" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Login
+            </a>
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 5px;">
+            <h3>About this Application</h3>
+            <p>This is a PHP MVC framework with user management and blog functionality.</p>
+            <ul>
+                <li>User authentication and authorization</li>
+                <li>Role-based access control (Admin/User)</li>
+                <li>Blog post management</li>
+                <li>User profile management</li>
+                <li>CSRF protection</li>
+                <li>Modern PHP 8.1+ features</li>
+            </ul>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

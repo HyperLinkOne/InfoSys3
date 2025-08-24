@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create User{% endblock %}
+
+{% block body %}
+<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h1>Create New User</h1>
+    
+    {% if error is defined and error %}
+        <div style="color: red; margin-bottom: 1rem; padding: 10px; background: #ffe6e6; border: 1px solid #ff9999; border-radius: 3px;">
+            {{ error }}
+        </div>
+    {% endif %}
+    
+    <form method="POST">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('default') }}">
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="username">Username: *</label><br>
+            <input type="text" id="username" name="username" required 
+                   value="{{ form_data.username|default('') }}"
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="email">Email: *</label><br>
+            <input type="email" id="email" name="email" required 
+                   value="{{ form_data.email|default('') }}"
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="password">Password: *</label><br>
+            <input type="password" id="password" name="password" required 
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+            <small style="color: #666;">Minimum 8 characters, at least one letter and one number</small>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="first_name">First Name:</label><br>
+            <input type="text" id="first_name" name="first_name" 
+                   value="{{ form_data.first_name|default('') }}"
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="last_name">Last Name:</label><br>
+            <input type="text" id="last_name" name="last_name" 
+                   value="{{ form_data.last_name|default('') }}"
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="role">Role: *</label><br>
+            <select id="role" name="role" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+                <option value="user" {{ (form_data.role|default('user')) == 'user' ? 'selected' : '' }}>User</option>
+                <option value="admin" {{ (form_data.role|default('user')) == 'admin' ? 'selected' : '' }}>Admin</option>
+            </select>
+        </div>
+        
+        <div style="margin-bottom: 2rem;">
+            <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                Create User
+            </button>
+            <a href="/users" style="margin-left: 10px; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 3px;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

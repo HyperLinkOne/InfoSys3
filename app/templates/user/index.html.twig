@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Management{% endblock %}
+
+{% block body %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>User Management</h1>
+        <a href="/users/create" style="padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 3px;">
+            Create New User
+        </a>
+    </div>
+    
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background: #f8f9fa;">
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">ID</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Username</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Email</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Full Name</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Role</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Status</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Created</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ user.getId() }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ user.getUsername() }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ user.getEmail() }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ user.getFullName() }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">
+                        <span style="padding: 4px 8px; border-radius: 3px; font-size: 12px; 
+                            {% if user.getRole() == 'admin' %}
+                                background: #dc3545; color: white;
+                            {% else %}
+                                background: #6c757d; color: white;
+                            {% endif %}">
+                            {{ user.getRole()|upper }}
+                        </span>
+                    </td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">
+                        <span style="padding: 4px 8px; border-radius: 3px; font-size: 12px;
+                            {% if user.isActive() %}
+                                background: #28a745; color: white;
+                            {% else %}
+                                background: #dc3545; color: white;
+                            {% endif %}">
+                            {{ user.isActive() ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ user.getCreatedAt().format('Y-m-d H:i') }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">
+                        <a href="/users/{{ user.getId() }}" style="margin-right: 5px; color: #007bff;">View</a>
+                        <a href="/users/{{ user.getId() }}/edit" style="margin-right: 5px; color: #ffc107;">Edit</a>
+                        <form method="POST" action="/users/{{ user.getId() }}/delete" style="display: inline;">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')" 
+                                    style="background: none; border: none; color: #dc3545; cursor: pointer; text-decoration: underline;">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" style="padding: 20px; text-align: center; border: 1px solid #ddd;">No users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

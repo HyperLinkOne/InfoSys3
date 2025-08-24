@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block body %}
+<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h1>My Profile</h1>
+    
+    {% if error is defined and error %}
+        <div style="color: red; margin-bottom: 1rem; padding: 10px; background: #ffe6e6; border: 1px solid #ff9999; border-radius: 3px;">
+            {{ error }}
+        </div>
+    {% endif %}
+    
+    {% if success is defined and success %}
+        <div style="color: green; margin-bottom: 1rem; padding: 10px; background: #e6ffe6; border: 1px solid #99ff99; border-radius: 3px;">
+            {{ success }}
+        </div>
+    {% endif %}
+    
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 2rem;">
+        <h3>Account Information</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+                <strong>Username:</strong> {{ user.getUsername() }}
+            </div>
+            <div>
+                <strong>Email:</strong> {{ user.getEmail() }}
+            </div>
+            <div>
+                <strong>Full Name:</strong> {{ user.getFullName() }}
+            </div>
+            <div>
+                <strong>Role:</strong> 
+                <span style="padding: 4px 8px; border-radius: 3px; font-size: 12px; 
+                    {% if user.getRole() == 'admin' %}
+                        background: #dc3545; color: white;
+                    {% else %}
+                        background: #6c757d; color: white;
+                    {% endif %}">
+                    {{ user.getRole()|upper }}
+                </span>
+            </div>
+            <div>
+                <strong>Member Since:</strong> {{ user.getCreatedAt().format('Y-m-d') }}
+            </div>
+            {% if user.getLastLoginAt() %}
+                <div>
+                    <strong>Last Login:</strong> {{ user.getLastLoginAt().format('Y-m-d H:i') }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 2rem;">
+        <h3>Change Password</h3>
+        <form method="POST">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('default') }}">
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="current_password">Current Password: *</label><br>
+                <input type="password" id="current_password" name="current_password" required 
+                       style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="new_password">New Password: *</label><br>
+                <input type="password" id="new_password" name="new_password" required 
+                       style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+                <small style="color: #666;">Minimum 8 characters, at least one letter and one number</small>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="confirm_password">Confirm New Password: *</label><br>
+                <input type="password" id="confirm_password" name="confirm_password" required 
+                       style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+            </div>
+            
+            <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                Change Password
+            </button>
+        </form>
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+        <a href="/" style="margin-right: 10px; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 3px;">
+            Home
+        </a>
+        <a href="/logout" style="padding: 10px 20px; background: #dc3545; color: white; text-decoration: none; border-radius: 3px;">
+            Logout
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1>User Profile: {{ user.getFullName() }}</h1>
+    
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+                <strong>Username:</strong> {{ user.getUsername() }}
+            </div>
+            <div>
+                <strong>Email:</strong> {{ user.getEmail() }}
+            </div>
+            <div>
+                <strong>Full Name:</strong> {{ user.getFullName() }}
+            </div>
+            <div>
+                <strong>Role:</strong> 
+                <span style="padding: 4px 8px; border-radius: 3px; font-size: 12px; 
+                    {% if user.getRole() == 'admin' %}
+                        background: #dc3545; color: white;
+                    {% else %}
+                        background: #6c757d; color: white;
+                    {% endif %}">
+                    {{ user.getRole()|upper }}
+                </span>
+            </div>
+            <div>
+                <strong>Status:</strong> 
+                <span style="padding: 4px 8px; border-radius: 3px; font-size: 12px;
+                    {% if user.isActive() %}
+                        background: #28a745; color: white;
+                    {% else %}
+                        background: #dc3545; color: white;
+                    {% endif %}">
+                    {{ user.isActive() ? 'Active' : 'Inactive' }}
+                </span>
+            </div>
+            <div>
+                <strong>Created:</strong> {{ user.getCreatedAt().format('Y-m-d H:i:s') }}
+            </div>
+            <div>
+                <strong>Last Updated:</strong> {{ user.getUpdatedAt().format('Y-m-d H:i:s') }}
+            </div>
+            {% if user.getLastLoginAt() %}
+                <div>
+                    <strong>Last Login:</strong> {{ user.getLastLoginAt().format('Y-m-d H:i:s') }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+        <a href="/users/{{ user.getId() }}/edit" style="margin-right: 10px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+            Edit User
+        </a>
+        <a href="/users" style="margin-right: 10px; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 3px;">
+            Back to Users
+        </a>
+        <a href="/" style="padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 3px;">
+            Home
+        </a>
+    </div>
+</div>
+{% endblock %}

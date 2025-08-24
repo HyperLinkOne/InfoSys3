@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ app.name }} - {% block title %}Home{% endblock %}</title>
+    <style>
+        .nav { background: #333; padding: 1rem; }
+        .nav a { color: white; text-decoration: none; margin-right: 1rem; }
+        .nav a:hover { color: #ddd; }
+        .user-info { float: right; color: white; }
+        .user-info a { color: #ffd700; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        {% if app.user %}
+            {% if app.user.isAdmin() %}
+                <a href="/users">User Management</a>
+            {% endif %}
+            <a href="/profile">My Profile</a>
+            <div class="user-info">
+                Welcome, {{ app.user.getFullName() }} ({{ app.user.getRole()|upper }})
+                <a href="/logout">Logout</a>
+            </div>
+        {% else %}
+            <div class="user-info">
+                <a href="/login">Login</a>
+            </div>
+        {% endif %}
+    </div>
+</header>
+
+<main>
+    {% block body %}{% endblock %}
+</main>
+{{ include('footer.html.twig') }}
+</body>
+</html>

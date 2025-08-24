@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Blog-Post bearbeiten</h1>
+    
+    {% if error is defined and error %}
+        <div style="color: red; margin-bottom: 1rem;">{{ error }}</div>
+    {% endif %}
+    
+    <form method="POST">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('default') }}">
+
+        <div style="margin-bottom: 1rem;">
+            <label for="title">Titel: *</label><br>
+            <input type="text" id="title" name="title" required
+                   value="{{ post.getTitle() }}"
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+            <label for="content">Inhalt: *</label><br>
+            <input type="text" id="content" name="content" required
+                   value="{{  post.getContent() }}"
+                   style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                Save Post
+            </button>
+            <a href="/blog" style="margin-left: 10px; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 3px;">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}
